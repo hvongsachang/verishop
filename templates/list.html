@@ -1,0 +1,106 @@
+<!-- Generates sub-list based on the store user wants to shop at -->
+{% extends "layout.html" %}
+
+{% block title %}
+    {% if store.find("\\'") != -1 %}
+        Your {{store.replace("\\'", "'")}} List
+    {% else %}
+        Your {{store}} List
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:200%">
+    {% if store.find("\\'") != -1 %}
+        Your {{store.replace("\\'", "'")}} List
+    {% else %}
+        Your {{store}} List
+    {% endif %}
+    </p>
+
+    <button class= "btn btn-secondary" input type="submit" onclick="addItem('{{store}}');" value="Add Item"/>Add Item(s) at {{store.replace("\\'", "'")}}</button>
+    <script>
+        function addItem(a) {
+            var store = a
+            document.getElementById('edit').innerHTML =
+            '<form action="/add3" method="post">'+
+            '<div class="form-group">'+
+            '<input name="store" value="' + store + '" type="hidden"/>' +
+            '<label>'+'<input autocomplete="off" autofocus class="form-control" name="item" placeholder="Item" type="text"/>'+'</label>'+
+            '<label>'+'<input autocomplete="off" class="form-control" name="quantity" placeholder="Quantity" min=1 type="number"/>'+'</label>'+
+            '<p>'+'</p>'+'<button class="btn btn-success" input type="submit" name="submit" value="add">Enter</button>'+
+            '</div>'+
+            '</form>';
+            document.getElementById('edit').style.display = "inline-block";
+            document.getElementById('cancel').style.display = "inline-block";
+            document.getElementById('block').style.display = "block";
+            document.getElementById('block1').style.display = "block";
+        }
+    </script>
+    <p></p>
+    <div id=edit class="edit-item">
+    </div>
+    <div id=block class="edit-item">
+    </div>
+    <div id=cancel class="edit-item">
+        <button class="btn btn-danger" input type="submit" onclick="hideDiv();" value="cancel">Cancel</button>
+        <script>
+            function hideDiv() {
+                document.getElementById('edit').style.display = "none";
+                document.getElementById('cancel').style.display = "none";
+                document.getElementById('block').style.display = "none";
+            }
+        </script>
+    </div>
+    <div id=block1 class="edit-item">
+        <p></p>
+    </div>
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterates over user's items -->
+            {% for item in items %}
+                <tr>
+                    {% if item["item_name"].find("\\'") != -1 %}
+                    <td>{{ item["item_name"].replace("\\'", "'")}}</td>
+                    {% else %}
+                    <td>{{ item["item_name"] }}</td>
+                    {% endif %}
+                    <td>{{ item["SUM(quantity)"] }}</td>
+                    <td class="text-center"><button class="btn btn-secondary text-center" input type="submit" onclick="showEdit('{{item['item_name']}}','{{store}}',{{item['SUM(quantity)']}});" value="Edit"/>Update</td>
+                        <script>
+                            function showEdit(a,b,c) {
+                                var item = a;
+                                var store = b;
+                                var quantity = c;
+                                document.getElementById('edit').innerHTML =
+                                '<form action="/subedit" method="post">'+
+                                '<div class="form-group">'+
+                                '<input name="oname" value="' + item + '" type="hidden"/>' +
+                                '<input name="ostore" value="' + store + '" type="hidden"/>' +
+                                '<input name="store" value="' + store + '" type="hidden"/>' +
+                                '<input name="oquan" value=' + quantity + ' type="hidden"/>' +
+                                '<label>'+'<input autocomplete="off" autofocus class="form-control" name="item" value="'+ item +'" placeholder="Item" type="text"/>'+'</label>'+
+                                '<label>'+'<input autocomplete="off" class="form-control" name="quantity" value='+ quantity +' placeholder="Quantity" min=1 type="number"/>'+'</label>'+
+                                '<p>'+'</p>'+'<button class="btn btn-success" input type="submit" name="submit" value="update">Update</button>'+
+                                '<button class="btn btn-danger" input type="submit" name="submit" value="delete">Delete/Bought</button>'+
+                                '</div>'+
+                                '</form';
+                                document.getElementById('edit').style.display = 'inline-block';
+                                document.getElementById('cancel').style.display = "inline-block";
+                                document.getElementById('block').style.display = "block";
+                                document.getElementById('block1').style.display = "block";
+                            }
+                        </script>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

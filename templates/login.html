@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:300%;">
+        Make Shopping Easier.
+    </p>
+
+    <p style="font-family:courier new;font-size:150%;">
+        For all you avid shoppers out there, we designed this web app to make your shopping experience more rewarding. No longer will you regret forgetting that one item you needed to buy.
+    </p>
+
+
+    <form action="/login" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password"/>
+        </div>
+        <button class="btn btn-secondary" type="submit">Log In</button>
+    </form>
+
+    <p style="font-family:courier new;font-size:75%;">
+        Don't have an account? Click <a href="/register">here</a> to register.
+    </p>
+{% endblock %}

@@ -1,0 +1,69 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+
+    color: white;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+main table
+{
+    /* left-align contents */
+    text-align: left;
+    font-family: tahoma;
+    border: 5px solid silver;
+}
+
+main th
+{
+    text-align: center;
+    border: 2.5px solid silver;
+}
+
+main tr, td
+{
+    text-align: left;
+    border: 2.5px solid silver;
+}
+
+main tfoot
+{
+    /* boldface tables' footers */
+    font-weight: bold;
+}
+
+.edit-item {
+    display: none;
+}
+
+label, input {
+    display: inline;
+}
+
+label {
+    margin-right: 5px;
+}

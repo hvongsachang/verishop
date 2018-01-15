@@ -1,0 +1,16 @@
+<!-- Gives option to add repeated item/store to list -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Items
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:200%">
+        Your shopping list already has {{item}} from {{store}}. Would you like to add {{item}} from {{store}} to your existing list?
+    </p>
+    <form action="/add2" method="post">
+        <button class="btn btn-secondary" input type="submit" name="submit" value= "{{item}},{{store}},{{quantity}}" >Yes</button>
+        <button class="btn btn-secondary" input type="submit" name="submit" value="n">No</button>
+    </form>
+{% endblock %}

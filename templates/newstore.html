@@ -1,0 +1,16 @@
+<!-- Asks if user wants to add store when store is not in database -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Add a New Store
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:200%">
+        That store was not found.  Would you like to add {{ store }} to our database?
+    </p>
+    <form action="/newstore" method="post">
+        <button class="btn btn-secondary" input type="submit" name="submit" value="{{ store }}">Yes</button>
+        <button class="btn btn-secondary" input type="submit" name="submit" value="n">No</button>
+    </form>
+{% endblock %}

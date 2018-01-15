@@ -1,0 +1,18 @@
+<!-- Asks user where the user wants to shop at -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Go Shopping!
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:200%">
+        Let's go shopping!
+    </p>
+    <form action="/shop" method="post">
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" name="store" placeholder="Store" type="text"/>
+        </div>
+        <button class="btn btn-secondary" type="submit">Generate Shopping List</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,133 @@
+<!-- Generates user's entire shopping list, including update functions -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Shopping List
+{% endblock %}
+
+{% block main %}
+    <p style="font-family:courier;font-size:200%">
+        Your Shopping List
+    </p>
+    <div id=edit class="edit-item">
+    </div>
+    <div id=block class="edit-item">
+    </div>
+    <div id=cancel class="edit-item">
+        <button class="btn btn-danger" input type="submit" onclick="hideDiv();" value="cancel">Cancel</button>
+        <script>
+            function hideDiv() {
+                document.getElementById('edit').style.display = "none";
+                document.getElementById('cancel').style.display = "none";
+                document.getElementById('block').style.display = "none";
+            }
+        </script>
+    </div>
+    <div id=block1 class="edit-item">
+        <p></p>
+    </div>
+    <button class= "btn btn-secondary" input type="submit" onclick="addItem();" value="Add Item"/>Add Item</button>
+    <script>
+        function addItem() {
+            document.getElementById('edit').innerHTML =
+            '<form action="/add" method="post">'+
+            '<div class="form-group">'+
+            '<label>'+'<input autocomplete="off" autofocus class="form-control" name="item" placeholder="Item" type="text"/>'+'</label>'+
+            '<label>'+'<input autocomplete="off" class="form-control" name="store" placeholder="Store" type="text"/>'+'</label>'+
+            '<label>'+'<input autocomplete="off" class="form-control" name="quantity" placeholder="Quantity" min=1 type="number"/>'+'</label>'+
+            '<p>'+'</p>'+'<button class="btn btn-success" input type="submit" name="submit" value="add">Enter</button>'+
+            '</div>'+
+            '</form>';
+            document.getElementById('edit').style.display = "inline-block";
+            document.getElementById('cancel').style.display = "inline-block";
+            document.getElementById('block').style.display = "block";
+            document.getElementById('block1').style.display = "block";
+
+
+        }
+    </script>
+    <button class= "btn btn-secondary" input type="submit" onclick="checkStore();" value="Check Store"/>Check Store</button>
+    <script>
+        function checkStore() {
+            document.getElementById('edit').innerHTML =
+            '<form action="/check" method="post">'+
+            '<div class="form-group">'+
+            '<label>'+'<input autocomplete="off" class="form-control" name="store" placeholder="Where are you shopping?" type="text"/>'+'</label>'+
+            '<p>'+'</p>'+'<button class="btn btn-success" input type="submit" name="submit" value="check">Enter</button>'+
+            '</div>'+
+            '</form';
+            document.getElementById('edit').style.display = 'inline-block';
+            document.getElementById('cancel').style.display = "inline-block";
+            document.getElementById('block').style.display = "block";
+            document.getElementById('block1').style.display = "block";
+
+        }
+    </script>
+    <p></p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <font size="4.75em">
+                        Item
+                    </font>
+                </th>
+                <th>
+                    <font size="4.75em">
+                        Store
+                    </font>
+                </th>
+                <th>
+                    <font size="4.75em">
+                        Quantity
+                    </font>
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+                {% for list in lists %}
+                <tr>
+                        {% if list["item_name"].find("\\'") != -1 %}
+                        <td>{{ list["item_name"].replace("\\'", "'")}}</td>
+                        {% else %}
+                        <td>{{ list["item_name"] }}</td>
+                        {% endif %}
+                        {% if list["store_name"].find("\\'") != -1 %}
+                        <td>{{ list["store_name"].replace("\\'", "'")}}</td>
+                        {% else %}
+                        <td>{{ list["store_name"] }}</td>
+                        {% endif %}
+                        <td>{{ list["SUM(quantity)"] }}</td>
+                        <td class="text-center"><button class= "btn btn-secondary" input type="submit" onclick="showEdit('{{list['item_name']}}','{{list['store_name']}}', {{list['SUM(quantity)']}});" value="Update"/>Update</td>
+                        <script>
+                            function showEdit(a,b,c) {
+                                var item = a;
+                                var store = b;
+                                var quantity = c;
+                                document.getElementById('edit').innerHTML =
+                                '<form action="/edit" method="post">'+
+                                '<div class="form-group">'+
+                                '<input name="oname" value="' + item + '" type="hidden"/>' +
+                                '<input name="ostore" value="' + store + '" type="hidden"/>' +
+                                '<input name="oquan" value=' + quantity + ' type="hidden"/>' +
+                                '<label>'+'<input autocomplete="off" autofocus class="form-control" name="item" value="'+ item +'" placeholder="Item" type="text"/>'+'</label>'+
+                                '<label>'+'<input autocomplete="off" class="form-control" name="store" value="'+ store + '" placeholder="Store" type="text"/>'+'</label>'+
+                                '<label>'+'<input autocomplete="off" class="form-control" name="quantity" value='+ quantity +' placeholder="Quantity" min=1 type="number"/>'+'</label>'+
+                                '<p>'+'</p>'+'<button class="btn btn-success" input type="submit" name="submit" value="update">Update</button>'+
+                                '<label>'+'<a>'+'</a>'+'</label>'+'<button class="btn btn-danger" input type="submit" name="submit" value="delete">Delete/Bought</button>'+
+                                '</div>'+
+                                '</form';
+                                document.getElementById('edit').style.display = 'inline-block';
+                                document.getElementById('cancel').style.display = "inline-block";
+                                document.getElementById('block').style.display = "block";
+                                document.getElementById('block1').style.display = "block";
+                            }
+                        </script>
+
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
