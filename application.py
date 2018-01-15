@@ -57,7 +57,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL(os.environ["DATABASE_URL"])
 
-@app.route("/")
+@app.route('/')
 @login_required
 def index():
     """Show entire shopping list"""
