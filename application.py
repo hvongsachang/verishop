@@ -8,11 +8,23 @@ import string
 import os
 import sqlalchemy
 
+import urlparse
+import psycopg2
+
 from functools import wraps
 # Configure application
 app = Flask(__name__)
 
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
+conn = psycopg2.connect(
+ database=url.path[1:],
+ user=url.username,
+ password=url.password,
+ host=url.hostname,
+ port=url.port
+)
 
 def login_required(f):
     """
@@ -43,8 +55,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///shoppers.db")
-
+db = SQL(os.environ["DATABASE_URL"])
 
 @app.route("/")
 @login_required
